@@ -35,6 +35,10 @@ const Proyectos = (props: ProyectosProps) => {
         setshowFiltersModal(false);
     };
 
+    const showAlert = () =>{
+        alert("modified");
+    }
+
     const handleModalFiltersClose = () =>{
         setshowFiltersModal(false);
     };
@@ -62,24 +66,24 @@ const Proyectos = (props: ProyectosProps) => {
         gatherProjects();
     };
 
-const gatherProjects = () => {
-        //setLoading(true)
-        fetch('http://localhost:2000/projects',{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response) => {
-                return response.json()})
-            .then((myJson) => {
-                console.log(myJson);
-                setLoadedProjects(JSON.parse(JSON.stringify(myJson)));
-
+    const gatherProjects = () => {
+            //setLoading(true)
+            fetch('http://localhost:2000/projects',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .catch(err => console.log(err))
-            sleep(3000).then(res => setLoading(false));
-}
+                .then((response) => {
+                    return response.json()})
+                .then((myJson) => {
+                    console.log(myJson);
+                    setLoadedProjects(JSON.parse(JSON.stringify(myJson)));
+
+                })
+                .catch(err => console.log(err))
+                sleep(3000).then(res => setLoading(false));
+    }
 
     useEffect(() => {
         gatherProjects();

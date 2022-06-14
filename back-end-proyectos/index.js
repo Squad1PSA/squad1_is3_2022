@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const app = express();
 
 var router = express.Router();
+//comment
 
 app.use(router);
 
@@ -23,7 +24,9 @@ app.use((req, res, next ) => {
     next()
 })
 const projectsRouter = require('./routes/projectsRoutes')
+const tasksRouter = require('./routes/tasksRoutes')
 app.use('/projects', projectsRouter)
+app.use('/tasks',tasksRouter)
 
 app.listen(2000, () => console.log('Node server running'))
 

@@ -2,22 +2,30 @@
 
 var mongoose = require("mongoose"),
   Schema = mongoose.Schema;
+  //autoIncrement = require('mongoose-auto-increment');
+
+//var connection = mongoose.createConnection("mongodb://localhost/PSAProject");
+//autoIncrement.initialize(connection);
 
 var projectSchema = new Schema({
-  code: { 
-    type: String,
+  /*code: { 
+    type: Number,
     required: true,
-    default: "p123"
-  },
+  },*/
   name: {
     type: String,
     required: true
   },
   //code se va a tener que generar automaticamente
   creationDate: { 
-    type: Date,
+    type: String,
     required: true,
-    default: Date.now
+    //se debe pedir la creation date
+  },
+  endDate: { 
+    type: String,
+    required: true,
+    //se debe pedir la fecha de finalizacion del proyecto
   },
   //al momento de creacion utilizamos la fecha del día actual
   type: {
@@ -29,6 +37,7 @@ var projectSchema = new Schema({
     type: String,
     //enum: ["iniciado","no iniciado","cancelado","finalizado"],
     required: true,
+    default: "No iniciado"
   },
   client: { 
     type: Number,
@@ -56,7 +65,7 @@ var projectSchema = new Schema({
   description: { 
     type: String,
     required: true,
-    default: ""
+    default: " "
   },
   resources: { 
     type: Array,
@@ -70,5 +79,12 @@ var projectSchema = new Schema({
   },
 
 });
+
+/*projectSchema.plugin(autoIncrement.plugin, { //nuevo
+  model: 'project', 
+  field: 'code',
+  startAt: 200,
+  incrementBy:1
+});*/
 
 module.exports = mongoose.model("project", projectSchema);

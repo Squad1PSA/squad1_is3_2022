@@ -1,13 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const Project = require('../models/PSAProject.js')
 const Task = require('../models/PSAtasks.js')
 
 // Getting all
 router.get('/', async (req, res) => {
   try {
-    const projects = await Project.find()
-    res.json(projects)
+    const tasks = await Task.find()
+    res.json(tasks)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
@@ -15,10 +14,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async(req,res)=>{
   //console.log(JSON.stringify(req))
-    const project = new Project(req.body)
+    const task = new Task(req.body)
     try {
-        const newProject = await project.save()
-        res.status(201).json(newProject)
+        const newTask = await task.save()
+        res.status(201).json(newTask)
 
     } catch (err) {
         res.status(400).json({message:err.message})
@@ -26,43 +25,46 @@ router.post('/', async(req,res)=>{
 })
 
 //GET one
-router.get('/:id', getProject, (req, res) => {
-  res.json(res.project)
+
+router.get('/:id', getTask, (req, res) => {
+  res.json(res.task)
 })
+
 
 router.patch('/:id', async (req, res) => {
     var updateObject = req.body; // {last_name : "smith", age: 44}
     var id = req.params.id;
     try {
-        const updatedProject = await Project.updateOne({_id  : req.params.id}, {$set: updateObject});
-        res.json(updatedProject);
+        const updatedTask = await Task.updateOne({_id  : req.params.id}, {$set: updateObject});
+        res.json(updatedTask);
     } catch (err) {
         res.send({message: err});
     }
 });
 
 //DELETE one
-router.delete('/:id', getProject, async (req, res) => {
+
+router.delete('/:id', getTask, async (req, res) => {
   try {
-    await await Project.remove({_id  : req.params.id});
-    res.json({ message: 'project Deleted' })
+    await await Task.remove({_id  : req.params.id});
+    res.json({ message: 'task Deleted' })
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
 })
 
-async function getProject(req, res, next) {
-  let project
+async function getTask(req, res, next) {
+  let task
   try {
-    project = await Project.findById({ _id: req.params.id})
-    if (project == null) {
-      return res.status(404).json({ message: 'Cannot find project' })
+    task = await Task.findById({ _id: req.params.id})
+    if (task == null) {
+      return res.status(404).json({ message: 'Cannot find task' })
     }
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
 
-  res.project = project
+  res.task = task
   next()
 }
 
