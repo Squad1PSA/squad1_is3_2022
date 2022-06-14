@@ -18,14 +18,20 @@ var projectSchema = new Schema({
   },
   //code se va a tener que generar automaticamente
   creationDate: { 
-    type: String,
+    type: Date,
     required: true,
     //se debe pedir la creation date
   },
   endDate: { 
     type: String,
     required: true,
+    default: "2"
     //se debe pedir la fecha de finalizacion del proyecto
+  },
+  UpdateDate: { 
+    type: String,
+    required: true,
+    //se debe pedir la creation date
   },
   //al momento de creacion utilizamos la fecha del día actual
   type: {

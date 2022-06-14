@@ -6,7 +6,7 @@ import { Project } from '../../types/projectTypes'
 
 interface EditProjectModalProps {
     onClose: () => void
-    onSubmit: () => void
+    onRefresh: () => void,
     show: boolean
     row: Project,
 }
@@ -15,58 +15,31 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const EditProjectModal = (props: EditProjectModalProps) => {
     
-    const [type, setType] = useState('');
-    const [showProductModal, setProductModal] = useState(false);
-    const { onSubmit, onClose, show } = props;
+    const { onClose, show ,onRefresh} = props;
+    const [projectState, setProjectState] = useState('');
+    const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
     const [isClientValid, setClientValidation] = useState(true);
-    const [isTypeValid, setTypeValidation] = useState(true);
+    const [isProjectStateValid, setProjectStateValidation] = useState(true);
     const [isLoading, setLoading] = useState<boolean>(false)
     const [loadedClients, setLoadedClients] = useState<Client[]>([])
     const [newProject, setNewProject] = useState({
-        name: "",
-        id: 0, //realizar un generador de id
-        creationDate: new Date().toLocaleDateString('es-AR'),
+        name: 'p123',
         updatedDate: new Date().toLocaleDateString('es-AR'),
-        type: "",
-        state: "No Iniciado",
-        client: 0,
-        productId: 0,
-        description: " ",
+        state: props.row.state,
+        description: props.row.description,
     })
 
-    const types = [{ value: 'inciciado', label: 'Iniciado', }, {value: 'no iniciado', label: 'No iniciado'}, {value: 'finalizado', label: 'Finalizado'},{value: 'cancelado', label: 'Cancelado'} ];
+    const states = [{ value: 'inciciado', label: 'Iniciado', }, {value: 'no iniciado', label: 'No iniciado'}, {value: 'finalizado', label: 'Finalizado'},{value: 'cancelado', label: 'Cancelado'} ];
 
     const handleChangeText = (e: any) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))
     };
 
-    const getClientsFromExternalAPI = () => {
-        //setLoading(true)
-        fetch('https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes',{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response) => {
-                return response.json()})
-            .then((myJson) => {
-                console.log(myJson);
-                setLoadedClients(JSON.parse(JSON.stringify(myJson)));
 
-            })
-            .catch(err => console.log(err))
-            sleep(3000).then(res => setLoading(false));
-    }
-
-    useEffect(() => {
-        getClientsFromExternalAPI();
-    }, []);
-
-    const generateProjectUsingAPI = async () => {
-        const response = await fetch('http://localhost:2000/projects', {
+    const updateProjectUsingAPI = async () => {
+        const response = await fetch(`http://localhost:2000/projects/${props.row._id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,64 +51,66 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     }
 
     const handleSubmitProductModal = async () =>{
-        setProductModal(false);
+        setShowProductModal(false);
     }
 
     const onCloseProductoModal =async () => {
-        setProductModal(false);
+        setShowProductModal(false);
     }
 
-    const validateProjectName = () =>{
+    /*const validateProjectName = () =>{
         if (newProject.name != "" && newProject.name.length<=20)
             setNameValidation(true);
         else
             setNameValidation(false);
+    }*/
+
+    const submit = () => {
+        onCloseProductoModal();
+        updateProjectUsingAPI();
+        props.onRefresh();
+        props.onClose();
+
     }
 
-    const validateProjectType = () =>{
-        if (newProject.type != "")
-            setTypeValidation(true);
+    const validateProjectState = () =>{
+        if (newProject.state != "")
+            setProjectStateValidation(true);
         else 
-            setTypeValidation(false);
-    }
-
-    const validateProjectClient = () =>{
-        if (newProject.client != 0)
-            setClientValidation(true);
-        else
-            setClientValidation(false);
+            setProjectStateValidation(false);
     }
   
-    const isADevelopProjectAndHasNOTAProductAssign = newProject.type == "desarrollo" && newProject.productId == 0;
+    //const isADevelopProjectAndHasNOTAProductAssign = props.row.type == "desarrollo" && newProject.productId == 0;
     
     const validateProjectValues = () =>{
-        validateProjectClient();
-        validateProjectName();
-        validateProjectType();
+        //validateProjectClient();
+        //validateProjectName();
+        validateProjectState();
 
-        if (isNameValid && isTypeValid && isClientValid){
+        //if (isNameValid && isProjectStateValid && isClientValid){
             setFormValidation(true);
             console.log("entro");
-        }
+        //}
         /*if (isADevelopProjectAndHasNOTAProductAssign)
             setFormValidation(false);*/
     }
 
     const handleSubmit = async () => {
         validateProjectValues();
-        if(isADevelopProjectAndHasNOTAProductAssign){
-            setProductModal(true);
-        }else if(isFormValid){
-            const response = await generateProjectUsingAPI()
+        //if(isADevelopProjectAndHasNOTAProductAssign){
+            //setProductModal(true);
+        //}else 
+        if(isFormValid){
+            const response = await updateProjectUsingAPI()
             /*if (response.status === 200) {
                 onSubmit();
             }*/
-            onSubmit();
+            submit();
         }
     };
 
-    const handleTypeSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setType(event.target.value);
+    const handleProjectStateSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setProjectState(event.target.value);
         setNewProject(({ ...newProject, [event.target.name]: event.target.value }))
     };
 
@@ -143,7 +118,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
         setClientValidation(true);
         setFormValidation(false);
         setNameValidation(true);
-        setTypeValidation(true);
+        setProjectStateValidation(true);
         onClose();
     };
 
@@ -174,26 +149,30 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 <Typography variant='h5' className={'m-10'}>Edite los datos para el proyecto {props.row._id}</Typography>
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
-                        <TextField required id="outlined-basic" name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Edite el nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <div className='mr-8 w-80'></div>
+                        <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Edite el nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
+                        <TextField required name="client" defaultValue = {props.row.creationDate}className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Edite la fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                            InputProps={{
+                                startAdornment: (
+                                <InputAdornment position="start">
+                                </InputAdornment>),}}
+                        />
                     </div>
                     <div className='flex mb-6 flex-row'>
-                        <TextField required select value={type} id="outlined-basic" name="type" className='mr-8 w-80' style={{backgroundColor: isTypeValid ? 'transparent' : '#F3909C'}} label="Edite el estado del proyecto" variant="outlined" onChange={handleTypeSelection}>
-                            {types.map((option) => (
+                        <TextField required select value={projectState} defaultValue = {props.row.state} id="outlined-basic" name="type" className='mr-8 w-80' style={{backgroundColor: isProjectStateValid ? 'transparent' : '#F3909C'}} label="Edite el estado del proyecto" variant="outlined" onChange={handleProjectStateSelection}>
+                            {states.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required name="client" className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Identifique el cliente por nombre o por CUIT" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required name="client" defaultValue= "20/08/2022" className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Edite la fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
-                                    <AccountCircle/>
                                 </InputAdornment>),}}
                         />
                     </div>
-                    <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' name='description' label="Descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
+                    <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' defaultValue={props.row.description} name='description' label="edite la descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
                     <div className='flex mb-6 flex-row'></div>
                     <div className='flex mb-6 flex-row'>  </div>
                     <div className="flex flex-row" >
@@ -201,8 +180,8 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                             <div className="m-4" > Cancelar</div>
                         </div>
                         <div className="w-56" ></div>
-                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={handleSubmit}>
-                            <div className="m-4" > Crear Proyecto </div>
+                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={submit}>
+                            <div className="m-4" > Editar Proyecto </div>
                         </div>
                     </div>
 

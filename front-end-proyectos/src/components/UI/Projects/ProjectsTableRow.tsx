@@ -62,7 +62,7 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
     return (
         <>
-            <EditProjectModal onSubmit={() => alert("Hello!")} onClose={handleAddProjectClose} show={showProjectModal} row = {props.row}/>
+            <EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row = {props.row}/>
             <TableRow hover key={row._id}>
                 <TableCell align="left">{row._id}</TableCell>
                 <TableCell align="left">{row.name}</TableCell>

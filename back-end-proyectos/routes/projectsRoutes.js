@@ -30,7 +30,7 @@ router.get('/:id', getProject, (req, res) => {
   res.json(res.project)
 })
 
-router.patch('/:id', async (req, res) => {
+router.post('/:id', async (req, res) => {
     var updateObject = req.body; // {last_name : "smith", age: 44}
     var id = req.params.id;
     try {
