@@ -13,7 +13,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const AddProjectModal = (props: AddProjectModalProps) => {
     
-    const [type, setType] = useState('');
+    const [type, setType] = useState('Desarrollo');
     const [showProductModal, setProductModal] = useState(false);
     const { onSubmit, onClose, show } = props;
     const [isFormValid, setFormValidation] = useState(false);
@@ -34,7 +34,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         description: " ",
     })
 
-    const types = [{ value: 'desarrollo', label: 'Desarrollo', }, {value: 'soporte', label: 'Soporte'} ];
+    const types = [{ value: 'Desarrollo', label: 'Desarrollo', }, {value: 'Soporte', label: 'Soporte'} ];
 
     const handleChangeText = (e: any) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))

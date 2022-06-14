@@ -16,7 +16,6 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const EditProjectModal = (props: EditProjectModalProps) => {
     
     const { onClose, show ,onRefresh} = props;
-    const [projectState, setProjectState] = useState('');
     const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
@@ -29,9 +28,10 @@ const EditProjectModal = (props: EditProjectModalProps) => {
         updatedDate: new Date(),
         state: props.row.state,
         description: props.row.description,
-    })
+    });
+    const [projectState, setProjectState] = useState(props.row.state);
 
-    const states = [{ value: 'inciciado', label: 'Iniciado', }, {value: 'no iniciado', label: 'No iniciado'}, {value: 'finalizado', label: 'Finalizado'},{value: 'cancelado', label: 'Cancelado'} ];
+    const states = [{ value: 'Inciciado', label: 'Iniciado', }, {value: 'No Iniciado', label: 'No Iniciado'}, {value: 'Finalizado', label: 'Finalizado'},{value: 'Cancelado', label: 'Cancelado'} ];
 
     const handleChangeText = (e: any) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))
@@ -128,9 +128,9 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 
                 <Modal onClose={onCloseProductoModal} open={showProductModal}>
                     <div className='absolute bg-gray-200  text-slate-800 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[70vh] h-[55vh] rounded-xl shadow-lg'>
-                        <Typography variant='h5' className={'m-10'}>Edite el poducto correspondiente al proyecto de desarrollo</Typography>
+                        <Typography variant='h5' className={'m-10'}>Producto correspondiente al proyecto de desarrollo</Typography>
                         <div className='flex mb-6 flex-row ml-[6vh]'>  
-                            <TextField required id="outlined-basic" name="productId" className='mr-8 w-80' label="Seleccione el producto asociado al proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} /> 
+                            <TextField required id="outlined-basic" name="productId" className='mr-8 w-80' label="Seleccione el producto asociado al proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText}/> 
                         </div>
                         <div className='flex mb-6 flex-row ml-[6vh]'>  </div>
                         <div className="flex flex-row ml-[6vh]" >
@@ -149,8 +149,8 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 <Typography variant='h5' className={'m-10'}>Edite los datos para el proyecto {props.row._id}</Typography>
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
-                        <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Edite el nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <TextField required name="client" defaultValue = {props.row.creationDate}className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Edite la fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
+                        <TextField required name="client" defaultValue = {props.row.creationDate}className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -158,21 +158,21 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                         />
                     </div>
                     <div className='flex mb-6 flex-row'>
-                        <TextField required select value={projectState} defaultValue = {props.row.state} id="outlined-basic" name="type" className='mr-8 w-80' style={{backgroundColor: isProjectStateValid ? 'transparent' : '#F3909C'}} label="Edite el estado del proyecto" variant="outlined" onChange={handleProjectStateSelection}>
+                        <TextField select required value={projectState} id="outlined-basic" className='mr-8 w-80' style={{backgroundColor: isProjectStateValid ? 'transparent' : '#F3909C'}} label="Estado del proyecto" variant="outlined" onChange={handleProjectStateSelection}>
                             {states.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required name="client" defaultValue= "20/08/2022" className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Edite la fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required name="client" defaultValue= "20/08/2022" className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
                                 </InputAdornment>),}}
                         />
                     </div>
-                    <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' defaultValue={props.row.description} name='description' label="edite la descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
+                    <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' defaultValue={props.row.description} name='description' label="Descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
                     <div className='flex mb-6 flex-row'></div>
                     <div className='flex mb-6 flex-row'>  </div>
                     <div className="flex flex-row" >
