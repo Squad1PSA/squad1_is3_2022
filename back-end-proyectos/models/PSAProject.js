@@ -18,7 +18,7 @@ var projectSchema = new Schema({
   },
   //code se va a tener que generar automaticamente
   creationDate: { 
-    type: Date,
+    type: String,
     required: true,
     //se debe pedir la creation date
   },
@@ -28,7 +28,7 @@ var projectSchema = new Schema({
     default: "2"
     //se debe pedir la fecha de finalizacion del proyecto
   },
-  UpdateDate: { 
+  updatedDate: { 
     type: String,
     required: true,
     //se debe pedir la creation date

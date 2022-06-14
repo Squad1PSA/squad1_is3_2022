@@ -26,7 +26,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     const [loadedClients, setLoadedClients] = useState<Client[]>([])
     const [newProject, setNewProject] = useState({
         name: 'p123',
-        updatedDate: new Date().toLocaleDateString('es-AR'),
+        updatedDate: new Date(),
         state: props.row.state,
         description: props.row.description,
     })

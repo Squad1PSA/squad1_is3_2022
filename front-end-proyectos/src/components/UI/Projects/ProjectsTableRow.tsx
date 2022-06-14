@@ -16,6 +16,7 @@ interface  ProjectTableRowProps {
 
 const  ProjectTableRow = (props:  ProjectTableRowProps) => {
     const { row, refresh } = props
+    console.log(row);
     const [showProjectModal, setshowProjectModal] = useState(false)
     
     const deleteItems = async () => {
