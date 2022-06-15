@@ -165,7 +165,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required name="client" defaultValue= "20/08/2022" className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required name="client" defaultValue= {props.row.endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">

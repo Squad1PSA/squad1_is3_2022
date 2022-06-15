@@ -1,8 +1,10 @@
 export type Project = {
     _id: string;
     name: string;
-    creationDate: Date;
-    updatedDate: Date;
+    creationDate: String;
+    updatedDate: String;
+    startDate: String,
+    endDate: String,
     type: string;
     state: string;
     client: number;

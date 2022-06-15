@@ -16,8 +16,11 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     const [type, setType] = useState('Desarrollo');
     const [showProductModal, setProductModal] = useState(false);
     const { onSubmit, onClose, show } = props;
+    const regexddmmyyyy = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
+    const [isStartDateValid, setStartDateValidation] = useState(true);
+    const [isEndDateValid, setEndDateValidation] = useState(true);
     const [isClientValid, setClientValidation] = useState(true);
     const [isTypeValid, setTypeValidation] = useState(true);
     const [isLoading, setLoading] = useState<boolean>(false)
@@ -27,6 +30,8 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         id: 0, //realizar un generador de id
         creationDate: new Date().toLocaleDateString('es-AR'),
         updatedDate: new Date().toLocaleDateString('es-AR'),
+        startDate: " ",
+        endDate: " ",
         type: "",
         state: "No Iniciado",
         client: 0,
@@ -40,6 +45,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))
     };
 
+    
     const getClientsFromExternalAPI = () => {
         //setLoading(true)
         fetch('https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes',{
@@ -103,11 +109,29 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         else
             setClientValidation(false);
     }
+
+    const validateProjectStartDate = () =>{
+        if(regexddmmyyyy.test(newProject.startDate)){
+            setStartDateValidation(true)
+        }
+        else
+            setStartDateValidation(false)
+    }
+
+    const validateProjectEndDate = () =>{
+        if(regexddmmyyyy.test(newProject.endDate)){
+            setEndDateValidation(true)
+        }
+        else
+            setEndDateValidation(false)
+    }
   
     const isADevelopProjectAndHasNOTAProductAssign = newProject.type == "desarrollo" && newProject.productId == 0;
     
     const validateProjectValues = () =>{
         validateProjectClient();
+        validateProjectStartDate();
+        validateProjectEndDate();
         validateProjectName();
         validateProjectType();
 
@@ -142,6 +166,8 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         setFormValidation(false);
         setNameValidation(true);
         setTypeValidation(true);
+        setEndDateValidation(true);
+        setStartDateValidation(true);
         onClose();
     };
 
@@ -190,10 +216,13 @@ const AddProjectModal = (props: AddProjectModalProps) => {
                                     <AccountCircle/>
                                 </InputAdornment>),}}
                         />
+                        
+                    </div>
+                    <div className='flex mb-6 flex-row'>
+                        <TextField required id="outlined-basic" name="startDate" className='mr-8 w-80' style={{backgroundColor: isStartDateValid ? 'transparent' : '#F3909C'}} label="Fecha de inicio del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
+                        <TextField required id="outlined-basic" name="endDate" className='mr-8 w-80' style={{backgroundColor: isEndDateValid ? 'transparent' : '#F3909C'}} label="Fecha de fin del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
                     </div>
                     <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' name='description' label="Descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
-                    <div className='flex mb-6 flex-row'></div>
-                    <div className='flex mb-6 flex-row'>  </div>
                     <div className="flex flex-row" >
                         <div className="text-center mr-8 mb-6 w-52 border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={onCloseCreateProjectModal} >
                             <div className="m-4" > Cancelar</div>

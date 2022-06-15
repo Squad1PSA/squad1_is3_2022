@@ -22,10 +22,14 @@ var projectSchema = new Schema({
     required: true,
     //se debe pedir la creation date
   },
+  startDate: { 
+    type: String,
+    required: true,
+    //se debe pedir la creation date
+  },
   endDate: { 
     type: String,
     required: true,
-    default: "2"
     //se debe pedir la fecha de finalizacion del proyecto
   },
   updatedDate: { 
