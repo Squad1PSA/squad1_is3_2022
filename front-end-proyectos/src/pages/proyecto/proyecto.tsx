@@ -25,7 +25,7 @@ const Proyecto = () => {
                 return response.json()})
             .then((myJson) => {
                 console.log(myJson);
-                //setProject(JSON.parse(JSON.stringify(myJson)));
+                setProject(JSON.parse(JSON.stringify(myJson)));
 
             })
             .catch(err => console.log(err));
