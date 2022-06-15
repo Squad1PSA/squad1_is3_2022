@@ -5,6 +5,10 @@ import { Project } from '../../types/projectTypes'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Circle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import EditProjectModal from './editProjectModal'
+import CircleIcon from '@mui/icons-material/Circle';
+import LoadingIndicator from '../../../components/Loading/LoadingIndicator';
 
 interface  ProjectTableRowProps {
     row: Project,
@@ -14,6 +18,7 @@ interface  ProjectTableRowProps {
 
 const  ProjectTableRow = (props:  ProjectTableRowProps) => {
     const { row, refresh } = props
+    const [showProjectModal, setshowProjectModal] = useState(false)
     const navigate = useNavigate();
     const deleteItems = async () => {
         const response = await fetch(`http://localhost:2000/projects/${row._id}`, {
@@ -26,7 +31,14 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
         props.refresh()
         return response;   
     }
+    const handleAddProjectClose = () => {
+        setshowProjectModal(false)
+    };
 
+    const handleModalOpen = () => {
+        setshowProjectModal(true)
+    };
+    
     /*const navigateToAPoject = () => {
         navigate('/project');
  
@@ -55,20 +67,25 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
 
     return (
-        <TableRow hover key={row._id}>
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}} >{row._id}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.name}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.type}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.state}</Link></TableCell>           
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{new Date(row.creationDate).toLocaleDateString('es-AR')}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{new Date(row.updatedDate).toLocaleDateString('es-AR')}</Link></TableCell>
-            <TableCell><Circle style={{alignSelf: 'left', color: riskColor,height: '4vh'}}></Circle></TableCell>
+        <><EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} /><TableRow hover key={row._id}>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.type}</Link></TableCell>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.state}</Link></TableCell>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{new Date(row.creationDate).toLocaleDateString('es-AR')}</Link></TableCell>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{new Date(row.updatedDate).toLocaleDateString('es-AR')}</Link></TableCell>
+            <TableCell><Circle style={{ alignSelf: 'left', color: riskColor, height: '4vh' }}></Circle></TableCell>
             <TableCell align="right">
                 <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
                     <DeleteIcon />
                 </div>
             </TableCell>
-        </TableRow>
+            <TableCell align="right">
+                <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={handleModalOpen}>
+                    <EditIcon />
+                </div>
+            </TableCell>
+        </TableRow></>
     )
 }
 
