@@ -3,22 +3,18 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Project } from '../../types/projectTypes'
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import CircleIcon from '@mui/icons-material/Circle';
-import LoadingIndicator from '../../../components/Loading/LoadingIndicator';
 import { Circle } from '@mui/icons-material';
-import EditProjectModal from './editProjectModal'
+import { Link, useNavigate } from 'react-router-dom';
 
 interface  ProjectTableRowProps {
     row: Project,
     refresh: () => void,
 }
 
+
 const  ProjectTableRow = (props:  ProjectTableRowProps) => {
     const { row, refresh } = props
-    console.log(row);
-    const [showProjectModal, setshowProjectModal] = useState(false)
-    
+    const navigate = useNavigate();
     const deleteItems = async () => {
         const response = await fetch(`http://localhost:2000/projects/${row._id}`, {
             method: 'DELETE',
@@ -31,13 +27,10 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
         return response;   
     }
 
-    const handleAddProjectClose = () => {
-        setshowProjectModal(false)
-    };
-
-    const handleModalOpen = () => {
-        setshowProjectModal(true)
-    };
+    /*const navigateToAPoject = () => {
+        navigate('/project');
+ 
+      };*/
 
     const [riskImpact, setRiskImpact] = useState('');
     const [riskColor, setRiskColor] = useState('#9297A0');
@@ -62,28 +55,20 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
 
     return (
-        <>
-            <EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row = {props.row}/>
-            <TableRow hover key={row._id}>
-                <TableCell align="left">{row._id}</TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{row.type}</TableCell>
-                <TableCell align="left">{row.state}</TableCell>           
-                <TableCell align="left">{new Date(row.creationDate).toLocaleDateString('es-AR')}</TableCell>
-                <TableCell align="left">{new Date(row.updatedDate).toLocaleDateString('es-AR')}</TableCell>
-                <TableCell><Circle style={{alignSelf: 'left', color: riskColor,height: '4vh'}}></Circle></TableCell>
-                <TableCell align="right">
-                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
-                        <DeleteIcon />
-                    </div>
-                </TableCell>
-                <TableCell align="right">
-                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={handleModalOpen}>
-                        <EditIcon />
-                    </div>
-                </TableCell>
-            </TableRow>
-        </>
+        <TableRow hover key={row._id}>
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}} >{row._id}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.name}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.type}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{row.state}</Link></TableCell>           
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{new Date(row.creationDate).toLocaleDateString('es-AR')}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{projectData: row}}>{new Date(row.updatedDate).toLocaleDateString('es-AR')}</Link></TableCell>
+            <TableCell><Circle style={{alignSelf: 'left', color: riskColor,height: '4vh'}}></Circle></TableCell>
+            <TableCell align="right">
+                <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
+                    <DeleteIcon />
+                </div>
+            </TableCell>
+        </TableRow>
     )
 }
 
