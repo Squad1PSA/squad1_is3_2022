@@ -1,22 +1,28 @@
-import { TextField, Typography } from '@mui/material'
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { useLocation } from 'react-router-dom'
 import {Project} from '../../components/types/projectTypes'
+import LoadingIndicator from '../../components/Loading/LoadingIndicator'
 import { useEffect, useState } from 'react'
 import { Circle } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import TaskTableRow from '../../components/UI/Projects/TaskTableRow'
 
 interface ProyectProps {
     projectData: Project,
     __proto__: Object,
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const Proyecto = () => {
     const location = useLocation()
     const prop = location.state as ProyectProps;
     const projectData = prop.projectData;
     const [project, setProject] = useState(projectData);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [loadedTasks, setLoadedTasks] = useState<Project[]>([])
     const [riskColor, setRiskColor] = useState('#9297A0');
     const [riskImpact, setRiskImpact] = useState('None');
     const [stateTagColor, setStateTagColor] = useState('#9297A0');
@@ -42,6 +48,26 @@ const Proyecto = () => {
 
             })
             .catch(err => console.log(err));
+            sleep(3000).then(res => setLoading(false));
+    }
+
+    const gatherTasks = () => {
+        //setLoading(true)
+        fetch('http://localhost:2000/projects',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                return response.json()})
+            .then((myJson) => {
+                console.log(myJson);
+                setLoadedTasks(JSON.parse(JSON.stringify(myJson)));
+
+            })
+            .catch(err => console.log(err))
+            sleep(3000).then(res => setLoading(false));
     }
 
     const determineRisk = () => {
@@ -92,6 +118,7 @@ const Proyecto = () => {
 
     useEffect(() => {
         fetchProject();
+        gatherTasks();
         determineRisk();
         determineStateTagColor();
         setexpandedRecursos(false);
@@ -164,8 +191,28 @@ const Proyecto = () => {
                     </div>   
                 </div>
             </div>
-            
-                    
+            <div className= 'pl-100 pr-100'>
+            <LoadingIndicator show={isLoading} className={`flex flex-col items-start  transition-all duration-200`} >
+                {!isLoading && (<> 
+                    <TableContainer component={Paper} className="mt-10 ml-100 mr-100"  >
+                        <Table className='ml-100 mr-100'>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="left">Código</TableCell>
+                                    <TableCell align="left">Nombre</TableCell>
+                                    <TableCell align="left">Prioridad</TableCell>
+                                    <TableCell align="left">Esfuerzo Estimado</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {loadedTasks && project.tasks.map(row => <TaskTableRow refresh={gatherTasks} row={row} key={row._id} />)}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+                )}
+            </LoadingIndicator>
+            </div>
         </>
     )
 }

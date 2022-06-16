@@ -1,3 +1,5 @@
+import {Task} from './taskType'
+
 export type Project = {
     _id: string;
     code: Number;
@@ -12,7 +14,7 @@ export type Project = {
     productId: number;
     iteration: number;
     phase: number;
-    tasks: number[] | null;
+    tasks: Task[];
     //resoursed debería de ser un set
     resources: number[] | null;
     risk: Risk | null;
