@@ -11,10 +11,12 @@ import TaskTableRow from '../../components/UI/Projects/TaskTableRow';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React from 'react';
 import Popup from 'reactjs-popup';
+import EditProjectModal from '../../components/UI/Projects/editProjectModal';
 
 interface ProyectProps {
     projectData: Project,
     __proto__: Object,
+    onRefresh: () => void,
 }
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -25,6 +27,7 @@ const Proyecto = () => {
     const projectData = prop.projectData;
     const [project, setProject] = useState(projectData);
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [showProjectModal, setshowProjectModal] = useState(false)
     const [loadedTasks, setLoadedTasks] = useState<Project[]>([])
     const [riskColor, setRiskColor] = useState('#9297A0');
     const [riskImpact, setRiskImpact] = useState('None');
@@ -117,6 +120,14 @@ const Proyecto = () => {
         setexpandedDates(!expandedDates);
     }
 
+    const handleAddProjectClose = () => {
+        setshowProjectModal(false)
+    };
+
+    const handleModalOpen = () => {
+        setshowProjectModal(true)
+    };
+
     const changeexpandedDetailsSetUp = () =>{
         setexpandedDetails(!expandedDetails);
     }
@@ -138,6 +149,7 @@ const Proyecto = () => {
 
     return (
         <>
+            <EditProjectModal onRefresh={prop.onRefresh} onClose={handleAddProjectClose} show={showProjectModal} row={project} />
             <div style={{display: 'flex', flexDirection: 'row', margin: 25, paddingBottom: 20, paddingLeft: 80, borderBottomColor:'#C5D0CB', borderBottomWidth: '1px'}}> 
                 <Typography variant='h5' className={'slate'}>{project.name}</Typography>
                 <div className = 'group'>
@@ -156,7 +168,7 @@ const Proyecto = () => {
                     position="right top"
                 >
                     <div className="menu" style={{backgroundColor: '#F4F6F5', borderRadius: 20, height: 88, width: 200}} >
-                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>Editar Proyecto</Typography>
+                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderTopLeftRadius: 20, borderTopRightRadius: 20}} onClick={handleModalOpen}>Editar Proyecto</Typography>
                         <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderBottomLeftRadius: 20, borderBottomRightRadius: 20}}>Agregar nueva tarea</Typography>
                     </div>
                 </Popup>
