@@ -12,6 +12,9 @@ var projectSchema = new Schema({
   code:{
     type:Number,
   },
+  name:{
+    type: String,
+  },
   creationDate: { 
     type:  String,
     required: true,
