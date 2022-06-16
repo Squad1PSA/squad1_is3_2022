@@ -31,7 +31,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     });
     const [projectState, setProjectState] = useState(props.row.state);
 
-    const states = [{ value: 'Inciciado', label: 'Iniciado', }, {value: 'No Iniciado', label: 'No Iniciado'}, {value: 'Finalizado', label: 'Finalizado'},{value: 'Cancelado', label: 'Cancelado'} ];
+    const states = [{value: 'No Iniciado', label: 'No Iniciado'}, { value: 'Inciciado', label: 'Iniciado', }, {value: 'Finalizado', label: 'Finalizado'},{value: 'Cancelado', label: 'Cancelado'} ];
 
     const handleChangeText = (e: any) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))
@@ -146,7 +146,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                     </div>
                 </Modal>
 
-                <Typography variant='h5' className={'m-10'}>Edite los datos para el proyecto {props.row._id}</Typography>
+                <Typography variant='h5' className={'m-10'}>Modifique el proyecto</Typography>
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
                         <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />

@@ -67,8 +67,14 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
 
     return (
+<<<<<<< Updated upstream
         <><EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} /><TableRow hover key={row._id}>
             <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.code.toString()}</Link></TableCell>
+=======
+        <><EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} />
+        <TableRow hover key={row._id}>
+            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
+>>>>>>> Stashed changes
             <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
             <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.type}</Link></TableCell>
             <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.state}</Link></TableCell>
