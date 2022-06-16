@@ -32,7 +32,6 @@ const Proyecto = () => {
     const [expandedRecursos, setexpandedRecursos] = useState(false);
     const [expandedDates, setexpandedDates] = useState(false);
     const [expandedDetails, setexpandedDetails] = useState(false);
-    const [openOptions, setOpenOptions] = useState(false);
     const [isADevelopmentProject, setIfItIsADevelomentProject]= useState(false);
 
     const recursos = ["RS12345678", "RS87654321", "RS98765432", "RS67543245", "RS87657905"];
@@ -91,15 +90,21 @@ const Proyecto = () => {
     }
 
     const determineStateTagColor = () => {
-        if(project.state == 'No Iniciado'){
+        if(project.state === 'No Iniciado' || project.state === 'no iniciado' ){
             setStateTagColor('#FC7A1E');
-        }else if (project.state == 'Iniciado'){
+            console.log('entro');
+        }else if (project.state === 'Iniciado' || project.state === 'iniciado'){
             setStateTagColor('#329F5B');
-        }else if (project.state == 'Finalizado'){
+            console.log('entro');
+        }else if (project.state === 'Finalizado' || project.state === 'finalizado'){
             setStateTagColor('#9297A0');
-        }else if (project.state == 'Cancelado'){
+            console.log('entro');
+        }else if (project.state === 'Cancelado' || project.state === 'cancelado'){
             setStateTagColor('#746D75');
+            console.log('entro');
         }
+        console.log(stateTagColor);
+        console.log(project.state);
     }
 
     const changeexpandedRecursosSetUp = () =>{
@@ -118,10 +123,6 @@ const Proyecto = () => {
 
     const checkIfItIsADevelopmentProject = () =>{
         setIfItIsADevelomentProject((project.type=="Desarrollo"));
-    }
-
-    const changestateOpenOptions = () => {
-
     }
 
     useEffect(() => {
@@ -147,7 +148,7 @@ const Proyecto = () => {
                 </div>
                 <Typography variant='body2' style={{marginLeft: "110vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
                 <Popup
-                    trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>}
+                    trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8'></MoreHorizIcon>}
                     closeOnDocumentClick
                     mouseLeaveDelay={300}
                     mouseEnterDelay={0}
