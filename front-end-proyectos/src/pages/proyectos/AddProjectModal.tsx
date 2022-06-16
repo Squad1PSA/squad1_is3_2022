@@ -129,11 +129,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
             setEndDateValidation(false)
     }
   
-<<<<<<< Updated upstream
-    const isADevelopProjectAndHasNOTAProductAssign = newProject.type == "Desarrollo" && newProject.productId == 0;
-=======
     const isADevelopProjectAndHasNOTAProductAssign = (newProject.type == "Desarrollo" || newProject.type == "desarrollo") && newProject.productId == 0;
->>>>>>> Stashed changes
     
     const validateProjectValues = () =>{
         validateProjectClient();
