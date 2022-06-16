@@ -67,30 +67,26 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
 
     return (
-<<<<<<< Updated upstream
-        <><EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} /><TableRow hover key={row._id}>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.code.toString()}</Link></TableCell>
-=======
-        <><EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} />
-        <TableRow hover key={row._id}>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
->>>>>>> Stashed changes
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.type}</Link></TableCell>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.state}</Link></TableCell>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.creationDate}</Link></TableCell>
-            <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.updatedDate}</Link></TableCell>
-            <TableCell><Circle style={{ alignSelf: 'left', color: riskColor, height: '4vh' }}></Circle></TableCell>
-            <TableCell align="right">
-                <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
-                    <DeleteIcon />
-                </div>
-            </TableCell>
-            <TableCell align="right">
-                <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={handleModalOpen}>
-                    <EditIcon />
-                </div>
-            </TableCell>
+        <>
+            <EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} />
+            <TableRow hover key={row._id}>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.code.toString()}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.type}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.state}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.creationDate}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.updatedDate}</Link></TableCell>
+                <TableCell><Circle style={{ alignSelf: 'left', color: riskColor, height: '4vh' }}></Circle></TableCell>
+                <TableCell align="right">
+                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
+                        <DeleteIcon />
+                    </div>
+                </TableCell>
+                <TableCell align="right">
+                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={handleModalOpen}>
+                        <EditIcon />
+                    </div>
+                </TableCell>
         </TableRow></>
     )
 }
