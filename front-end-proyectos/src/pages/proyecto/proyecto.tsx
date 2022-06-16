@@ -9,6 +9,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TaskTableRow from '../../components/UI/Projects/TaskTableRow';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import React from 'react';
+import Popup from 'reactjs-popup';
 
 interface ProyectProps {
     projectData: Project,
@@ -144,7 +146,19 @@ const Proyecto = () => {
                     </span>
                 </div>
                 <Typography variant='body2' style={{marginLeft: "110vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
-                <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>
+                <Popup
+                trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>}
+                closeOnDocumentClick
+                mouseLeaveDelay={300}
+                mouseEnterDelay={0}
+                arrow={false}
+                >
+                <div className="menu">
+                    <div className="menu-item"> item 1</div>
+                    <div className="menu-item"> item 2</div>
+                    <div className="menu-item"> item 3</div>
+                </div>
+                </Popup>
             </div>
             <div style={{display: 'flex', flexDirection: 'row', marginLeft: 100}}> 
                 <div style={{display: 'flex', flexDirection: 'column', marginTop: -10, width:'90vh'}}>
