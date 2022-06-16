@@ -85,6 +85,7 @@ const Proyectos = (props: ProyectosProps) => {
                 sleep(3000).then(res => setLoading(false));
     }
 
+
     useEffect(() => {
         gatherProjects();
     }, []);

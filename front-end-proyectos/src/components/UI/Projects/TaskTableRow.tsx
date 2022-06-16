@@ -12,31 +12,46 @@ import LoadingIndicator from '../../../components/Loading/LoadingIndicator';
 
 interface  TaskTableRowProps {
     row: Task,
+    pid: string,
+    tasks: Task[],
     refresh: () => void,
 }
 
 
 const  TaskTableRow = (props:  TaskTableRowProps) => {
-    const { row, refresh } = props
+    const { row, refresh, pid,tasks } = props
+    const [newTasks, setNewTasks] = useState({
+        tasks: props.tasks
+    })
     const [showProjectModal, setshowProjectModal] = useState(false)
     const navigate = useNavigate();
-    const deleteItems = async () => {
-        const response = await fetch(`http://localhost:2000/projects/${row._id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
+
     
-            },
-        })
-        props.refresh()
-        return response;   
-    }
     const handleAddProjectClose = () => {
         setshowProjectModal(false)
     };
 
     const handleModalOpen = () => {
         setshowProjectModal(true)
+    };
+
+    const updateProjectUsingAPI = async () => {
+        const response = await fetch(`http://localhost:2000/projects/${props.pid}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+
+            },
+            body: JSON.stringify(newTasks)
+        })
+        props.refresh();
+        return response
+    }
+
+    const deleteTask = () => {
+        const filteredTasks = props.tasks.filter(item => item._id !== row._id);
+        setNewTasks({tasks: filteredTasks});
+        updateProjectUsingAPI();
     };
     
     /*const navigateToAPoject = () => {
@@ -58,9 +73,9 @@ const  TaskTableRow = (props:  TaskTableRowProps) => {
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.priority}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.efford}</Link></TableCell>               
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.effort}</Link></TableCell>               
                 <TableCell align="right">
-                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
+                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteTask}>
                         <DeleteIcon />
                     </div>
                 </TableCell>

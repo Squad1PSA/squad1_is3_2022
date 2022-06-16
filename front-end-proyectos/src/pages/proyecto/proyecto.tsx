@@ -34,6 +34,9 @@ const Proyecto = () => {
     const [expandedDetails, setexpandedDetails] = useState(false);
     const [openOptions, setOpenOptions] = useState(false);
     const [isADevelopmentProject, setIfItIsADevelomentProject]= useState(false);
+    const [newProject, setNewProject] = useState({
+        tasks: projectData.tasks,
+    });
 
     const recursos = ["RS12345678", "RS87654321", "RS98765432", "RS67543245", "RS87657905"];
 
@@ -72,6 +75,18 @@ const Proyecto = () => {
             })
             .catch(err => console.log(err))
             sleep(3000).then(res => setLoading(false));
+    }
+
+    const updateProjectUsingAPI = async () => {
+        const response = await fetch(`http://localhost:2000/projects/${projectData._id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+
+            },
+            body: JSON.stringify(newProject)
+        })
+        return response
     }
 
     const determineRisk = () => {
@@ -184,7 +199,7 @@ const Proyecto = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {loadedTasks && project.tasks.map(row => <TaskTableRow refresh={gatherTasks} row={row} key={row._id} />)}
+                                            {loadedTasks && project.tasks.map(row => <TaskTableRow refresh={gatherTasks} row={row} pid= {projectData._id} tasks = {project.tasks} key={row._id} />)}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
