@@ -25,7 +25,7 @@
       }
 
       .risk-tooltip {
-        @apply absolute w-auto p-2 m-1 min-w-max left-[70vh]
+        @apply absolute w-auto p-2 m-1 min-w-max left-[50vh]
         rounded-md shadow-md
         text-slate-600  bg-gray-100
         text-xs font-bold
