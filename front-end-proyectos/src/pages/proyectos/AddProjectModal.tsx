@@ -12,7 +12,14 @@ interface AddProjectModalProps {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const AddProjectModal = (props: AddProjectModalProps) => {
-    
+
+    const partsCurrentDate = (new Date().toLocaleDateString('es-AR')).split("/");
+    var currentDate;
+    if(partsCurrentDate[1].length==1){
+        currentDate = partsCurrentDate[0] + "/0" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
+    }else{
+        currentDate= partsCurrentDate[0] + "/" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
+    }
     const [type, setType] = useState('Desarrollo');
     const [showProductModal, setProductModal] = useState(false);
     const { onSubmit, onClose, show } = props;
@@ -28,8 +35,8 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     const [newProject, setNewProject] = useState({
         name: "",
        // id: 0, //realizar un generador de id
-        creationDate: new Date().toLocaleDateString('es-AR'),
-        updatedDate: new Date().toLocaleDateString('es-AR'),
+        creationDate: currentDate,
+        updatedDate: currentDate,
         startDate: "dd/mm/yyyy",
         endDate: "dd/mm/yyyy",
         type: type,
@@ -114,7 +121,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     const validateProjectStartDate = () =>{
         //if(regexddmmyyyy.test(newProject.startDate)){
         if(newProject.startDate!="dd/mm/yyyy"){
-            setStartDateValidation(true)
+            setStartDateValidation(true);
         }
         else
             setStartDateValidation(false)
@@ -152,6 +159,10 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         if(isADevelopProjectAndHasNOTAProductAssign){
             setProductModal(true);
         }else if(isFormValid){
+            const partsS = newProject.startDate.split('-');
+            newProject.startDate = partsS[2] + "/" + partsS[1] + "/" + partsS[0];
+            const partsE = newProject.endDate.split('-');
+            newProject.endDate = partsE[2] + "/" + partsE[1] + "/" + partsE[0];
             const response = await generateProjectUsingAPI()
             /*if (response.status === 200) {
                 onSubmit();
