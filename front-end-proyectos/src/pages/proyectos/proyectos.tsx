@@ -117,8 +117,8 @@ const Proyectos = (props: ProyectosProps) => {
                                     <TableCell align="left">Nombre</TableCell>
                                     <TableCell align="left">Tipo</TableCell>
                                     <TableCell align="left">Estado</TableCell>
-                                    <TableCell align="left">Fecha de creacion</TableCell>
-                                    <TableCell align="left">Ultima Modificacion</TableCell>
+                                    <TableCell align="left">Fecha de Inicio</TableCell>
+                                    <TableCell align="left">Fecha de Fin</TableCell>
                                     <TableCell align="left">Riesgo</TableCell>
                                     <TableCell align="left"></TableCell>
                                 </TableRow>

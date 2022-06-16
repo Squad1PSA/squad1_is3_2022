@@ -74,8 +74,8 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.type}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.state}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.creationDate}</Link></TableCell>
-                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.updatedDate}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.startDate}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.endDate}</Link></TableCell>
                 <TableCell><Circle style={{ alignSelf: 'left', color: riskColor, height: '4vh' }}></Circle></TableCell>
                 <TableCell align="right">
                     <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
