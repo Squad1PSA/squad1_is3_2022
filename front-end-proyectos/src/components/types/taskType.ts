@@ -1,6 +1,6 @@
 export type Task = {
     _id: string;
-    code: Number;
+    code: number;
     name: string;
     priority: number;
     //resoursed debería de ser un set

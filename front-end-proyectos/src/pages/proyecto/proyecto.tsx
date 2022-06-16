@@ -114,7 +114,7 @@ const Proyecto = () => {
     }
 
     const checkIfItIsADevelopmentProject = () =>{
-        setIfItIsADevelomentProject((project.type == "desarrollo" || project.type=="Desarrollo"));
+        setIfItIsADevelomentProject((project.type=="Desarrollo"));
     }
 
     useEffect(() => {

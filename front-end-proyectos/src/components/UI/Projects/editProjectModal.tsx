@@ -14,7 +14,6 @@ interface EditProjectModalProps {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const EditProjectModal = (props: EditProjectModalProps) => {
-    
     const { onClose, show ,onRefresh} = props;
     const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);

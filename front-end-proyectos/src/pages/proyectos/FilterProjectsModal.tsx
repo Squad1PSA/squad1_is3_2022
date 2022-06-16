@@ -10,6 +10,9 @@ interface FilterProjectsModalProps {
     show: boolean
 }
 
+interface ProyectProps {
+}
+
 const FilterProjectsModal = (props: FilterProjectsModalProps) => {
     const { onSubmit, onClose, show } = props;
     const [type, setType] = useState('');
@@ -30,7 +33,7 @@ const FilterProjectsModal = (props: FilterProjectsModalProps) => {
     };
 
     const generateFilter = async () => {
-        //deberíamos filtrar con este filtro los proyectos, o solo traerlos los proyectos que cumplen esto
+        
     };
 
     const handleSubmit = async () => {
