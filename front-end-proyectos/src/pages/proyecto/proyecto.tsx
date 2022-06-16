@@ -7,7 +7,8 @@ import { Circle } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import TaskTableRow from '../../components/UI/Projects/TaskTableRow'
+import TaskTableRow from '../../components/UI/Projects/TaskTableRow';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 interface ProyectProps {
     projectData: Project,
@@ -134,10 +135,11 @@ const Proyecto = () => {
                 <div className = 'group'>
                     <Circle  style={{ alignSelf: 'left', color: riskColor, height: '5vh', marginLeft: '5vh'}}></Circle>
                     <span className="risk-tooltip group-hover:scale-100" >
-                        {riskImpact}
+                        Riesgo: {riskImpact}
                     </span>
                 </div>
-                <Typography variant='body2' style={{marginLeft: "60vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project._id}</Typography>
+                <Typography variant='body2' style={{marginLeft: "75vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project._id}</Typography>
+                <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8'></MoreHorizIcon>
             </div>
             <div style={{display: 'flex', flexDirection: 'row', marginLeft: 100}}> 
                 <div style={{display: 'flex', flexDirection: 'column', marginTop: -10, width:'90vh'}}>
@@ -147,6 +149,29 @@ const Proyecto = () => {
                         <div style= {{ marginTop: 10, backgroundColor: "#E9EDEB", borderRadius: 15, padding: 10, paddingLeft: 30, paddingRight: 30, minHeight:110}}>
                             <Typography variant='body2' className={'slate'}>{project.description}</Typography>
                         </div>
+                    </div>
+                    <div style={{marginTop: 25}}>
+                    <Typography variant='body2' className='w-[27vh]' style={{fontWeight: 'bold', color: '#5C7067'}}>Tareas: </Typography>
+                        <LoadingIndicator show={isLoading} className={`flex flex-col items-start  transition-all duration-200`} >
+                            {!isLoading && (<> 
+                                <TableContainer component={Paper} className="mt-5 ml-100 mr-100" style = {{width: 640, borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '0.5px'}}  >
+                                    <Table className='ml-100 mr-100'>
+                                        <TableHead >
+                                            <TableRow>
+                                                <TableCell align="left" style={{color: '#5C7067' }}>Código</TableCell>
+                                                <TableCell align="left" style={{color: '#5C7067' }}>Nombre</TableCell>
+                                                <TableCell align="left" style={{color: '#5C7067' }}>Prioridad</TableCell>
+                                                <TableCell align="left" style={{color: '#5C7067' }}>Esfuerzo Estimado</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {loadedTasks && project.tasks.map(row => <TaskTableRow refresh={gatherTasks} row={row} key={row._id} />)}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </>
+                            )}
+                        </LoadingIndicator>
                     </div>
                 </div>
                 <div style= {{display: 'flex', flexDirection: 'column', width: '50vh',marginLeft: 60}} >
@@ -190,28 +215,6 @@ const Proyecto = () => {
                         </div>
                     </div>   
                 </div>
-            </div>
-            <div className= 'pl-100 pr-100'>
-            <LoadingIndicator show={isLoading} className={`flex flex-col items-start  transition-all duration-200`} >
-                {!isLoading && (<> 
-                    <TableContainer component={Paper} className="mt-10 ml-100 mr-100"  >
-                        <Table className='ml-100 mr-100'>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="left">Código</TableCell>
-                                    <TableCell align="left">Nombre</TableCell>
-                                    <TableCell align="left">Prioridad</TableCell>
-                                    <TableCell align="left">Esfuerzo Estimado</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {loadedTasks && project.tasks.map(row => <TaskTableRow refresh={gatherTasks} row={row} key={row._id} />)}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </>
-                )}
-            </LoadingIndicator>
             </div>
         </>
     )
