@@ -138,7 +138,7 @@ const Proyecto = () => {
                         Riesgo: {riskImpact}
                     </span>
                 </div>
-                <Typography variant='body2' style={{marginLeft: "75vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project._id}</Typography>
+                <Typography variant='body2' style={{marginLeft: "75vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
                 <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8'></MoreHorizIcon>
             </div>
             <div style={{display: 'flex', flexDirection: 'row', marginLeft: 100}}> 
