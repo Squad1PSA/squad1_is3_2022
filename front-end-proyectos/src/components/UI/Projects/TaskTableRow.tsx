@@ -55,7 +55,7 @@ const  TaskTableRow = (props:  TaskTableRowProps) => {
     return (
         <>
             <TableRow hover key={row._id}>
-                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.code.toString()}</Link></TableCell>
+                <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.priority}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.efford}</Link></TableCell>               
