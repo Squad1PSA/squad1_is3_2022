@@ -9,6 +9,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TaskTableRow from '../../components/UI/Projects/TaskTableRow';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import React from 'react';
+import Popup from 'reactjs-popup';
 
 interface ProyectProps {
     projectData: Project,
@@ -30,6 +32,7 @@ const Proyecto = () => {
     const [expandedRecursos, setexpandedRecursos] = useState(false);
     const [expandedDates, setexpandedDates] = useState(false);
     const [expandedDetails, setexpandedDetails] = useState(false);
+    const [openOptions, setOpenOptions] = useState(false);
     const [isADevelopmentProject, setIfItIsADevelomentProject]= useState(false);
 
     const recursos = ["RS12345678", "RS87654321", "RS98765432", "RS67543245", "RS87657905"];
@@ -117,6 +120,10 @@ const Proyecto = () => {
         setIfItIsADevelomentProject((project.type=="Desarrollo"));
     }
 
+    const changestateOpenOptions = () => {
+
+    }
+
     useEffect(() => {
         fetchProject();
         gatherTasks();
@@ -138,8 +145,20 @@ const Proyecto = () => {
                         Riesgo: {riskImpact}
                     </span>
                 </div>
-                <Typography variant='body2' style={{marginLeft: "75vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
-                <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8'></MoreHorizIcon>
+                <Typography variant='body2' style={{marginLeft: "110vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
+                <Popup
+                    trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>}
+                    closeOnDocumentClick
+                    mouseLeaveDelay={300}
+                    mouseEnterDelay={0}
+                    arrow={false}
+                    position="right top"
+                >
+                    <div className="menu" style={{backgroundColor: '#F4F6F5', borderRadius: 20, height: 88, width: 200}} >
+                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>Editar Proyecto</Typography>
+                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderBottomLeftRadius: 20, borderBottomRightRadius: 20}}>Agregar nueva tarea</Typography>
+                    </div>
+                </Popup>
             </div>
             <div style={{display: 'flex', flexDirection: 'row', marginLeft: 100}}> 
                 <div style={{display: 'flex', flexDirection: 'column', marginTop: -10, width:'90vh'}}>
@@ -182,22 +201,11 @@ const Proyecto = () => {
                         </div>
                             {expandedDetails && 
                             <>
-                            <div style={{display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Tipo de proyecto: </Typography><Typography variant='body2' className={'slate'}>{project.type}</Typography></div>
-                            <div style={{display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Cliente: </Typography><Typography variant='body2' className={'slate'}>{project.client}</Typography></div>
-                            {isADevelopmentProject && <div style={{display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Producto: </Typography><Typography variant='body2' className={'slate'}>{project.productId}</Typography></div>}
-                            </>}
-                    </div>
-                    <div className='hover:bg-gray-100' style={{marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedDatesSetUp}>
-                        <div style={{ borderBottomColor: expandedDates ? "#B0BFB8":'transparent', paddingBottom: expandedDates ? 10:0, marginBottom:expandedDates ? 10:0, display: 'flex', flexDirection: 'row',color: '#5C7067', borderBottomWidth: '1px'}}><Typography variant='body2' className='w-[30vh] ml-5' style={{fontWeight: 'bold'}}>Fechas Significativas </Typography>
-                            {expandedDates && <KeyboardArrowUpIcon className='ml-7' style={{color: '#5C7067'}}/>}
-                            {!expandedDates && <KeyboardArrowDownIcon className='ml-7' style={{color: '#5C7067'}}/>}
-                        </div>
-                            {expandedDates && 
-                            <>
-                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de creación: </Typography><Typography variant='body2' className={'slate'}>{project.creationDate}</Typography></div>
-                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de la última modificación: </Typography><Typography variant='body2' className={'slate'}>{project.updatedDate}</Typography></div>
+                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Tipo de proyecto: </Typography><Typography variant='body2' className={'slate'}>{project.type}</Typography></div>
+                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Cliente: </Typography><Typography variant='body2' className={'slate'}>{project.client}</Typography></div>
                             <div style={{marginBottom:10, display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de inicio: </Typography><Typography variant='body2' className={'slate'}>{project.startDate}</Typography></div>
-                            <div style={{paddingBottom: 10,display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de cierre: </Typography><Typography variant='body2' className={'slate'}>{project.endDate}</Typography></div>
+                            <div style={{marginBottom:10,display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de cierre: </Typography><Typography variant='body2' className={'slate'}>{project.endDate}</Typography></div>
+                            {isADevelopmentProject && <div style={{display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Producto: </Typography><Typography variant='body2' className={'slate'}>{project.productId}</Typography></div>}
                             </>}
                     </div>
                     <div className = 'hover:bg-gray-100 transition-all duration-200  group' style={{width: '400', marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedRecursosSetUp}>
@@ -213,6 +221,17 @@ const Proyecto = () => {
                                 </div>
                             </>}
                         </div>
+                    </div>
+                    <div className='hover:bg-gray-100' style={{marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedDatesSetUp}>
+                        <div style={{ borderBottomColor: expandedDates ? "#B0BFB8":'transparent', paddingBottom: expandedDates ? 10:0, marginBottom:expandedDates ? 10:0, display: 'flex', flexDirection: 'row',color: '#5C7067', borderBottomWidth: '1px'}}><Typography variant='body2' className='w-[30vh] ml-5' style={{fontWeight: 'bold'}}>Actividad </Typography>
+                            {expandedDates && <KeyboardArrowUpIcon className='ml-7' style={{color: '#5C7067'}}/>}
+                            {!expandedDates && <KeyboardArrowDownIcon className='ml-7' style={{color: '#5C7067'}}/>}
+                        </div>
+                            {expandedDates && 
+                            <>
+                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de creación: </Typography><Typography variant='body2' className={'slate'}>{project.creationDate}</Typography></div>
+                            <div style={{marginBottom:10, display: 'flex', flexDirection: 'row',color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Fecha de la última modificación: </Typography><Typography variant='body2' className={'slate'}>{project.updatedDate}</Typography></div>
+                            </>}
                     </div>   
                 </div>
             </div>
