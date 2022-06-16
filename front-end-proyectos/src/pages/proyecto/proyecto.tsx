@@ -147,17 +147,17 @@ const Proyecto = () => {
                 </div>
                 <Typography variant='body2' style={{marginLeft: "110vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
                 <Popup
-                trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>}
-                closeOnDocumentClick
-                mouseLeaveDelay={300}
-                mouseEnterDelay={0}
-                arrow={false}
+                    trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8' onClick={changestateOpenOptions}></MoreHorizIcon>}
+                    closeOnDocumentClick
+                    mouseLeaveDelay={300}
+                    mouseEnterDelay={0}
+                    arrow={false}
+                    position="right top"
                 >
-                <div className="menu">
-                    <div className="menu-item"> item 1</div>
-                    <div className="menu-item"> item 2</div>
-                    <div className="menu-item"> item 3</div>
-                </div>
+                    <div className="menu" style={{backgroundColor: '#F4F6F5', borderRadius: 20, height: 88, width: 200}} >
+                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>Editar Proyecto</Typography>
+                        <Typography variant='body2' className='menu-item hover:bg-gray-200' style={{ padding: 12, color: '#5C7067', borderBottomLeftRadius: 20, borderBottomRightRadius: 20}}>Agregar nueva tarea</Typography>
+                    </div>
                 </Popup>
             </div>
             <div style={{display: 'flex', flexDirection: 'row', marginLeft: 100}}> 
