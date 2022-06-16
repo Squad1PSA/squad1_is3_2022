@@ -136,7 +136,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
             setEndDateValidation(false)
     }
   
-    const isADevelopProjectAndHasNOTAProductAssign = (newProject.type == "Desarrollo" || newProject.type == "desarrollo") && newProject.productId == 0;
+    const isADevelopProjectAndHasNOTAProductAssign = (newProject.type == "Desarrollo") && newProject.productId == 0;
     
     const validateProjectValues = () =>{
         validateProjectClient();
@@ -155,7 +155,6 @@ const AddProjectModal = (props: AddProjectModalProps) => {
 
     const handleSubmit = async () => {
         validateProjectValues();
-
         if(isADevelopProjectAndHasNOTAProductAssign){
             setProductModal(true);
         }else if(isFormValid){

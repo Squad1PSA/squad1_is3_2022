@@ -13,13 +13,12 @@ import AddResourcesModal from '../proyectos/AddResourcesModal';
 import FilterProjectsModal from '../proyectos/FilterProjectsModal';
 
 interface ProyectosProps {
-
+    
 }
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const Proyectos = (props: ProyectosProps) => {
-
     const [loadedProjects, setLoadedProjects] = useState<Project[]>([])
     const [isLoading, setLoading] = useState<boolean>(false)
     const [showProjectModal, setshowProjectModal] = useState(false)

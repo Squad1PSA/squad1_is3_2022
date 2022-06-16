@@ -14,7 +14,20 @@ interface EditProjectModalProps {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const EditProjectModal = (props: EditProjectModalProps) => {
-    
+    const partsCurrentDate = (new Date().toLocaleDateString('es-AR')).split("/");
+    var currentDate;
+    if(partsCurrentDate[1].length==1){
+        currentDate = partsCurrentDate[0] + "/0" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
+    }else{
+        currentDate= partsCurrentDate[0] + "/" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
+    }
+
+    const [dayS, monthS, yearS] = props.row.startDate.split('/');
+    const startDate = yearS +'-'+monthS+'-'+dayS;
+
+    const [dayE, monthE, yearE] = props.row.endDate.split('/');
+    const endDate = yearE +'-'+monthE+'-'+dayE;
+
     const { onClose, show ,onRefresh} = props;
     const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);
@@ -27,7 +40,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     const month = date.getMonth()+1
     const [newProject, setNewProject] = useState({
         name: props.row.name,
-        updatedDate: date.getDate() + "/"+ month +"/"+date.getFullYear(),
+        updatedDate: currentDate,
         state: props.row.state,
         description: props.row.description,
         startDate: props.row.startDate,
@@ -35,11 +48,16 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     });
     const [projectState, setProjectState] = useState(props.row.state);
 
-    const states = [{value: 'No Iniciado', label: 'No Iniciado'}, { value: 'Inciciado', label: 'Iniciado', }, {value: 'Finalizado', label: 'Finalizado'},{value: 'Cancelado', label: 'Cancelado'} ];
+    const states = [{value: 'No Iniciado', label: 'No Iniciado'}, { value: 'Iniciado', label: 'Iniciado', }, {value: 'Finalizado', label: 'Finalizado'},{value: 'Cancelado', label: 'Cancelado'} ];
 
     const handleChangeText = (e: any) => {
         setNewProject(({ ...newProject, [e.target.name]: e.target.value }))
     };
+
+    const handleChangeDate = (e: any) => {
+        const parts = e.target.value.split('-');
+        setNewProject(({ ...newProject, [e.target.name]: parts[2] + "/" + parts[1] + "/" + parts[0] }))
+    }
 
 
     const updateProjectUsingAPI = async () => {
@@ -109,11 +127,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
             //setProductModal(true);
         //}else 
         if(isFormValid){
-            const partsS = newProject.startDate.split('-');
-            newProject.startDate = partsS[2] + "/" + partsS[1] + "/" + partsS[0];
-            const partsE = newProject.endDate.split('-');
-            newProject.endDate = partsE[2] + "/" + partsE[1] + "/" + partsE[0];
-            const response = await updateProjectUsingAPI()
+            console.log("valid");
             /*if (response.status === 200) {
                 onSubmit();
             }*/
@@ -162,7 +176,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
                         <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <TextField required type="date" name="startDate" defaultValue = {props.row.startDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required type="date" name="startDate" defaultValue = {startDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
                         />
                     </div>
                     <div className='flex mb-6 flex-row'>
@@ -173,7 +187,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required type="date" name="endDate" defaultValue= {props.row.endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required type="date" name="endDate" defaultValue= {endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -188,7 +202,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                             <div className="m-4" > Cancelar</div>
                         </div>
                         <div className="w-56" ></div>
-                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={submit}>
+                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={handleSubmit}>
                             <div className="m-4" > Editar Proyecto </div>
                         </div>
                     </div>
