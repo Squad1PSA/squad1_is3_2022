@@ -23,11 +23,15 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     const [isProjectStateValid, setProjectStateValidation] = useState(true);
     const [isLoading, setLoading] = useState<boolean>(false)
     const [loadedClients, setLoadedClients] = useState<Client[]>([])
+    const date = new Date();
+    const month = date.getMonth()+1
     const [newProject, setNewProject] = useState({
-        name: 'p123',
-        updatedDate: new Date(),
+        name: props.row.name,
+        updatedDate: date.getDate() + "/"+ month +"/"+date.getFullYear(),
         state: props.row.state,
         description: props.row.description,
+        startDate: props.row.startDate,
+        endDate: props.row.endDate
     });
     const [projectState, setProjectState] = useState(props.row.state);
 
@@ -58,12 +62,12 @@ const EditProjectModal = (props: EditProjectModalProps) => {
         setShowProductModal(false);
     }
 
-    /*const validateProjectName = () =>{
+    const validateProjectName = () =>{
         if (newProject.name != "" && newProject.name.length<=20)
             setNameValidation(true);
         else
             setNameValidation(false);
-    }*/
+    }
 
     const submit = () => {
         onCloseProductoModal();
@@ -83,14 +87,18 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     //const isADevelopProjectAndHasNOTAProductAssign = props.row.type == "desarrollo" && newProject.productId == 0;
     
     const validateProjectValues = () =>{
-        //validateProjectClient();
         //validateProjectName();
+        validateProjectName();
         validateProjectState();
 
-        //if (isNameValid && isProjectStateValid && isClientValid){
+        if (isNameValid && isProjectStateValid){
             setFormValidation(true);
             console.log("entro");
-        //}
+        }
+            /*if (response.status === 200) {
+                onSubmit();
+            }*/
+            //onSubmit();
         /*if (isADevelopProjectAndHasNOTAProductAssign)
             setFormValidation(false);*/
     }
@@ -101,6 +109,10 @@ const EditProjectModal = (props: EditProjectModalProps) => {
             //setProductModal(true);
         //}else 
         if(isFormValid){
+            const partsS = newProject.startDate.split('-');
+            newProject.startDate = partsS[2] + "/" + partsS[1] + "/" + partsS[0];
+            const partsE = newProject.endDate.split('-');
+            newProject.endDate = partsE[2] + "/" + partsE[1] + "/" + partsE[0];
             const response = await updateProjectUsingAPI()
             /*if (response.status === 200) {
                 onSubmit();
@@ -150,22 +162,18 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
                         <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <TextField required name="client" defaultValue = {props.row.creationDate}className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
-                            InputProps={{
-                                startAdornment: (
-                                <InputAdornment position="start">
-                                </InputAdornment>),}}
+                        <TextField required type="date" name="startDate" defaultValue = {props.row.startDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                         />
                     </div>
                     <div className='flex mb-6 flex-row'>
-                        <TextField select required value={projectState} id="outlined-basic" className='mr-8 w-80' style={{backgroundColor: isProjectStateValid ? 'transparent' : '#F3909C'}} label="Estado del proyecto" variant="outlined" onChange={handleProjectStateSelection}>
+                        <TextField select required name="state" value={projectState} id="outlined-basic" className='mr-8 w-80' style={{backgroundColor: isProjectStateValid ? 'transparent' : '#F3909C'}} label="Estado del proyecto" variant="outlined" onChange={handleProjectStateSelection}>
                             {states.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required name="client" defaultValue= {props.row.endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
+                        <TextField required type="date" name="endDate" defaultValue= {props.row.endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
