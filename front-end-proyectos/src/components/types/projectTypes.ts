@@ -1,5 +1,6 @@
 export type Project = {
     _id: string;
+    code: Number;
     name: string;
     creationDate: String;
     updatedDate: String;

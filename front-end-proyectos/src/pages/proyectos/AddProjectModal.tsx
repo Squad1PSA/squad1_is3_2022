@@ -16,7 +16,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     const [type, setType] = useState('Desarrollo');
     const [showProductModal, setProductModal] = useState(false);
     const { onSubmit, onClose, show } = props;
-    const regexddmmyyyy = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
+    //const regexddmmyyyy = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
     const [isStartDateValid, setStartDateValidation] = useState(true);
@@ -27,12 +27,12 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     const [loadedClients, setLoadedClients] = useState<Client[]>([])
     const [newProject, setNewProject] = useState({
         name: "",
-        id: 0, //realizar un generador de id
+       // id: 0, //realizar un generador de id
         creationDate: new Date().toLocaleDateString('es-AR'),
         updatedDate: new Date().toLocaleDateString('es-AR'),
-        startDate: " ",
-        endDate: " ",
-        type: "",
+        startDate: "dd/mm/yyyy",
+        endDate: "dd/mm/yyyy",
+        type: type,
         state: "No Iniciado",
         client: 0,
         productId: 0,
@@ -70,6 +70,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     }, []);
 
     const generateProjectUsingAPI = async () => {
+        console.log(newProject);
         const response = await fetch('http://localhost:2000/projects', {
             method: 'POST',
             headers: {
@@ -111,7 +112,8 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     }
 
     const validateProjectStartDate = () =>{
-        if(regexddmmyyyy.test(newProject.startDate)){
+        //if(regexddmmyyyy.test(newProject.startDate)){
+        if(newProject.startDate!="dd/mm/yyyy"){
             setStartDateValidation(true)
         }
         else
@@ -119,14 +121,15 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     }
 
     const validateProjectEndDate = () =>{
-        if(regexddmmyyyy.test(newProject.endDate)){
+        //if(regexddmmyyyy.test(newProject.endDate)){
+        if(newProject.startDate!="dd/mm/yyyy"){
             setEndDateValidation(true)
         }
         else
             setEndDateValidation(false)
     }
   
-    const isADevelopProjectAndHasNOTAProductAssign = newProject.type == "desarrollo" && newProject.productId == 0;
+    const isADevelopProjectAndHasNOTAProductAssign = newProject.type == "Desarrollo" && newProject.productId == 0;
     
     const validateProjectValues = () =>{
         validateProjectClient();
@@ -145,6 +148,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
 
     const handleSubmit = async () => {
         validateProjectValues();
+
         if(isADevelopProjectAndHasNOTAProductAssign){
             setProductModal(true);
         }else if(isFormValid){
@@ -219,8 +223,8 @@ const AddProjectModal = (props: AddProjectModalProps) => {
                         
                     </div>
                     <div className='flex mb-6 flex-row'>
-                        <TextField required id="outlined-basic" name="startDate" className='mr-8 w-80' style={{backgroundColor: isStartDateValid ? 'transparent' : '#F3909C'}} label="Fecha de inicio del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <TextField required id="outlined-basic" name="endDate" className='mr-8 w-80' style={{backgroundColor: isEndDateValid ? 'transparent' : '#F3909C'}} label="Fecha de fin del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
+                        <TextField required id="outlined-basic" type="date" name="startDate" className='mr-8 w-80' style={{backgroundColor: isStartDateValid ? 'transparent' : '#F3909C'}} label="Fecha de inicio del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
+                        <TextField required id="outlined-basic" type="date" name="endDate" className='mr-8 w-80' style={{backgroundColor: isEndDateValid ? 'transparent' : '#F3909C'}} label="Fecha de fin del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
                     </div>
                     <TextField id="outlined-basic" className='mb-6 w-[42rem] mr-8' name='description' label="Descripcion" multiline rows={3} InputLabelProps={{ shrink: true }} variant="outlined" onChange={handleChangeText} />
                     <div className="flex flex-row" >

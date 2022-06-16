@@ -1,25 +1,21 @@
 'use strict'
 
 var mongoose = require("mongoose"),
-  Schema = mongoose.Schema;
-  //autoIncrement = require('mongoose-auto-increment');
+  Schema = mongoose.Schema,
+  autoIncrement = require('mongoose-auto-increment');
 
-//var connection = mongoose.createConnection("mongodb://localhost/PSAProject");
-//autoIncrement.initialize(connection);
+var connection = mongoose.createConnection("mongodb://localhost/PSAProject");
+autoIncrement.initialize(connection);
 
 var projectSchema = new Schema({
-  /*code: { 
-    type: Number,
-    required: true,
-  },*/
-  name: {
-    type: String,
-    required: true
-  },
   //code se va a tener que generar automaticamente
+  code:{
+    type:Number,
+  },
   creationDate: { 
-    type: String,
+    type:  String,
     required: true,
+    default: Date.now,
     //se debe pedir la creation date
   },
   startDate: { 
@@ -28,12 +24,12 @@ var projectSchema = new Schema({
     //se debe pedir la creation date
   },
   endDate: { 
-    type: String,
+    type:  String,
     required: true,
     //se debe pedir la fecha de finalizacion del proyecto
   },
   updatedDate: { 
-    type: String,
+    type:  String,
     required: true,
     //se debe pedir la creation date
   },
@@ -90,11 +86,11 @@ var projectSchema = new Schema({
 
 });
 
-/*projectSchema.plugin(autoIncrement.plugin, { //nuevo
+projectSchema.plugin(autoIncrement.plugin, { //nuevo
   model: 'project', 
   field: 'code',
-  startAt: 200,
+  startAt: 240,
   incrementBy:1
-});*/
+});
 
 module.exports = mongoose.model("project", projectSchema);
