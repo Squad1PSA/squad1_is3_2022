@@ -167,7 +167,7 @@ const Proyecto = () => {
                         Riesgo: {riskImpact}
                     </span>
                 </div>
-                <Typography variant='body2' style={{marginLeft: "110vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
+                <Typography variant='body2' style={{marginLeft: "85vh", color: '#C5D0CB', marginTop: "1vh"}}>#{project.code.toString()}</Typography>
                 <Popup
                     trigger={ <MoreHorizIcon style={{color:'gray', marginLeft: 80}} className= 'hover:bg-gray-100 hover:rounded-3xl transition-all duration-200  group w-8 h-8'></MoreHorizIcon>}
                     closeOnDocumentClick
@@ -216,7 +216,7 @@ const Proyecto = () => {
                     </div>
                 </div>
                 <div style= {{display: 'flex', flexDirection: 'column', width: '50vh',marginLeft: 60}} >
-                    <div className='hover:bg-gray-100' style={{padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedDetailsSetUp}>
+                    <div className='hover:bg-gray-100' style={{padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px', marginRight: '5vh'}} onClick={changeexpandedDetailsSetUp}>
                         <div style={{ borderBottomColor: expandedDetails ? "#B0BFB8":'transparent', paddingBottom: expandedDetails ? 10:0, marginBottom:expandedDetails ? 10:0, display: 'flex', flexDirection: 'row',color: '#5C7067', borderBottomWidth: '1px'}}><Typography variant='body2' className='w-[30vh] ml-5' style={{fontWeight: 'bold'}}>Detalles </Typography>
                             {expandedDetails && <KeyboardArrowUpIcon className='ml-7' style={{color: '#5C7067'}}/>}
                             {!expandedDetails && <KeyboardArrowDownIcon className='ml-7' style={{color: '#5C7067'}}/>}
@@ -230,7 +230,7 @@ const Proyecto = () => {
                             {isADevelopmentProject && <div style={{display: 'flex', flexDirection: 'row', color: '#5C7067'}}><Typography variant='body2' className='w-[27vh]  ml-5'>Producto: </Typography><Typography variant='body2' className={'slate'}>{project.productId}</Typography></div>}
                             </>}
                     </div>
-                    <div className = 'hover:bg-gray-100 transition-all duration-200  group' style={{width: '400', marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedRecursosSetUp}>
+                    <div className = 'hover:bg-gray-100 transition-all duration-200  group' style={{width: '400', marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px',marginRight: '5vh'}} onClick={changeexpandedRecursosSetUp}>
                         <div style={{ display: 'flex', flexDirection: 'row',color: '#5C7067', borderBottomColor: expandedRecursos ? "#B0BFB8":'transparent', paddingBottom: expandedRecursos ? 10:0, marginBottom:expandedRecursos ? 10:0, borderBottomWidth: '1px'}}><Typography variant='body2' className='w-[30vh] ml-5' style={{fontWeight: 'bold'}}>Recursos </Typography>
                             {expandedRecursos && <KeyboardArrowUpIcon className='ml-7' style={{color: '#5C7067'}}/>}
                             {!expandedRecursos && <KeyboardArrowDownIcon className='ml-7' style={{color: '#5C7067'}}/>}    
@@ -244,7 +244,7 @@ const Proyecto = () => {
                             </>}
                         </div>
                     </div>
-                    <div className='hover:bg-gray-100' style={{marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px'}} onClick={changeexpandedDatesSetUp}>
+                    <div className='hover:bg-gray-100' style={{marginTop: 10, padding: 15, display: 'flex', flexDirection: 'column', borderColor: "#B0BFB8", borderRadius: 15, borderWidth: '1px',marginRight: '5vh'}} onClick={changeexpandedDatesSetUp}>
                         <div style={{ borderBottomColor: expandedDates ? "#B0BFB8":'transparent', paddingBottom: expandedDates ? 10:0, marginBottom:expandedDates ? 10:0, display: 'flex', flexDirection: 'row',color: '#5C7067', borderBottomWidth: '1px'}}><Typography variant='body2' className='w-[30vh] ml-5' style={{fontWeight: 'bold'}}>Actividad </Typography>
                             {expandedDates && <KeyboardArrowUpIcon className='ml-7' style={{color: '#5C7067'}}/>}
                             {!expandedDates && <KeyboardArrowDownIcon className='ml-7' style={{color: '#5C7067'}}/>}
