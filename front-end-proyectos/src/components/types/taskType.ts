@@ -4,7 +4,7 @@ export type Task = {
     name: string;
     priority: number;
     //resoursed debería de ser un set
-    efford: number;
+    effort: number;
     resource: number;
     description: string | null;
 }
