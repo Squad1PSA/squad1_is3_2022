@@ -158,7 +158,7 @@ const Proyecto = () => {
 
     return (
         <>
-            <EditProjectModal onRefresh={prop.onRefresh} onClose={handleAddProjectClose} show={showProjectModal} row={project} />
+            <EditProjectModal onRefresh={fetchProject} onClose={handleAddProjectClose} show={showProjectModal} row={project} />
             <div style={{display: 'flex', flexDirection: 'row', margin: 25, paddingBottom: 20, paddingLeft: 80, borderBottomColor:'#C5D0CB', borderBottomWidth: '1px'}}> 
                 <Typography variant='h5' className={'slate'}>{project.name}</Typography>
                 <div className = 'group'>
