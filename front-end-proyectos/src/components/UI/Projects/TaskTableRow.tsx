@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditProjectModal from './editProjectModal'
 import CircleIcon from '@mui/icons-material/Circle';
 import LoadingIndicator from '../../../components/Loading/LoadingIndicator';
+import ConfirmModal from './confirmationModal'
 
 interface  TaskTableRowProps {
     row: Task,
@@ -19,7 +20,9 @@ interface  TaskTableRowProps {
 
 
 const  TaskTableRow = (props:  TaskTableRowProps) => {
-    const { row, refresh, pid,tasks } = props
+    const { row, refresh, pid,tasks } = props;
+    const [showCofirmationModal, setShowConfirmationModal] = useState(false);
+    
     const [newTasks, setNewTasks] = useState({
         tasks: props.tasks
     })
@@ -27,6 +30,19 @@ const  TaskTableRow = (props:  TaskTableRowProps) => {
     const navigate = useNavigate();
 
     
+    const handleDeleteConfirmation = () =>{
+        deleteTask();
+        setShowConfirmationModal(false);
+    };
+
+    const handleNotConfirmation = () =>{
+        setShowConfirmationModal(false);
+    };
+
+    const openConfirmationDeleteModal = () =>{
+        setShowConfirmationModal(true);
+    }
+
     const handleAddProjectClose = () => {
         setshowProjectModal(false)
     };
@@ -69,13 +85,14 @@ const  TaskTableRow = (props:  TaskTableRowProps) => {
 
     return (
         <>
+            <ConfirmModal onSubmit={handleDeleteConfirmation} onClose={handleNotConfirmation} show={showCofirmationModal} txt="Seguro que desea elimiar la tarea"/>
             <TableRow hover key={row._id}>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row._id}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.name}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.priority}</Link></TableCell>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.effort}</Link></TableCell>               
                 <TableCell align="right">
-                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteTask}>
+                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={openConfirmationDeleteModal}>
                         <DeleteIcon />
                     </div>
                 </TableCell>

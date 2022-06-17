@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import{Client} from '../../../components/types/clientTypes'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Project } from '../../types/projectTypes'
+import ConfirmModal from './confirmationModal'  
 
 interface EditProjectModalProps {
     onClose: () => void
@@ -10,8 +11,6 @@ interface EditProjectModalProps {
     show: boolean
     row: Project,
 }
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const EditProjectModal = (props: EditProjectModalProps) => {
     const partsCurrentDate = (new Date().toLocaleDateString('es-AR')).split("/");
@@ -27,13 +26,14 @@ const EditProjectModal = (props: EditProjectModalProps) => {
 
     const [dayE, monthE, yearE] = props.row.endDate.split('/');
     const endDate = yearE +'-'+monthE+'-'+dayE;
-
+    const [showCofirmationModal, setShowConfirmationModal] = useState(false);
     const { onClose, show ,onRefresh} = props;
     const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
     const [isStartDateValid, setStartDateValidation] = useState(true);
     const [isClientValid, setClientValidation] = useState(true);
+
     const [isProjectStateValid, setProjectStateValidation] = useState(true);
     const [isEndDateValid, setEndDateValidation] = useState(true);
     const [isLoading, setLoading] = useState<boolean>(false)
@@ -149,9 +149,23 @@ const EditProjectModal = (props: EditProjectModalProps) => {
         onClose();
     };
 
+    const handleDeleteConfirmation = () =>{
+        handleSubmit();
+        setShowConfirmationModal(false);
+    };
+
+    const handleNotConfirmation = () =>{
+        setShowConfirmationModal(false);
+    };
+
+    const openConfirmationModal = () =>{
+        setShowConfirmationModal(true);
+    }
+
     return (
         <Modal onClose={onClose} open={show} >
             <div className='absolute bg-gray-200  text-slate-800 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120vh] h-[85vh] rounded-xl shadow-lg'>
+            <ConfirmModal onSubmit={handleDeleteConfirmation} onClose={handleNotConfirmation} show={showCofirmationModal} txt="Guardar cambios en el proyecto"/>
                 <Typography variant='h5' className={'m-10'}>Modifique el proyecto</Typography>
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
@@ -182,7 +196,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                             <div className="m-4" > Cancelar</div>
                         </div>
                         <div className="w-56" ></div>
-                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={handleSubmit}>
+                        <div className="text-center mr-8 mb-6 w-52  border-2 border-slate-400  rounded-xl shadow-lg font-bold text-slate-800 hover:border-teal-600 hover:border-1 hover:bg-gray-200 hover:text-teal-600 transition-all duration-300 cursor-pointer" onClick={openConfirmationModal}>
                             <div className="m-4" > Editar </div>
                         </div>
                     </div>

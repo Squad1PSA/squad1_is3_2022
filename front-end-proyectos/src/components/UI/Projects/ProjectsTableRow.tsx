@@ -7,6 +7,7 @@ import { Circle } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import EditProjectModal from './editProjectModal'
+import ConfirmModal from './confirmationModal'
 import CircleIcon from '@mui/icons-material/Circle';
 import LoadingIndicator from '../../../components/Loading/LoadingIndicator';
 
@@ -17,8 +18,9 @@ interface  ProjectTableRowProps {
 
 
 const  ProjectTableRow = (props:  ProjectTableRowProps) => {
-    const { row, refresh } = props
-    const [showProjectModal, setshowProjectModal] = useState(false)
+    const { row, refresh } = props;
+    const [showProjectModal, setshowProjectModal] = useState(false);
+    const [showCofirmationModal, setShowConfirmationModal] = useState(false);
     const navigate = useNavigate();
     const deleteItems = async () => {
         const response = await fetch(`http://localhost:2000/projects/${row._id}`, {
@@ -39,6 +41,19 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
         setshowProjectModal(true)
     };
     
+    const handleDeleteConfirmation = () =>{
+        deleteItems();
+        setShowConfirmationModal(false);
+    };
+
+    const handleNotConfirmation = () =>{
+        setShowConfirmationModal(false);
+    };
+
+    const openConfirmationDeleteModal = () =>{
+        setShowConfirmationModal(true);
+    }
+
     /*const navigateToAPoject = () => {
         navigate('/project');
  
@@ -66,6 +81,7 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
 
     return (
         <>
+            <ConfirmModal onSubmit={handleDeleteConfirmation} onClose={handleNotConfirmation} show={showCofirmationModal} txt="Seguro que desea elimiar el proyecto"/>
             <EditProjectModal onRefresh={props.refresh} onClose={handleAddProjectClose} show={showProjectModal} row={props.row} />
             <TableRow hover key={row._id}>
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.code.toString()}</Link></TableCell>
@@ -76,7 +92,7 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
                 <TableCell align="left"><Link to='/proyecto' state={{ projectData: row }}>{row.endDate}</Link></TableCell>
                 <TableCell><Circle style={{ alignSelf: 'left', color: riskColor, height: '4vh' }}></Circle></TableCell>
                 <TableCell align="right">
-                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={deleteItems}>
+                    <div className='hover:text-teal-600 text-slate-600 cursor-pointer' onClick={openConfirmationDeleteModal}>
                         <DeleteIcon />
                     </div>
                 </TableCell>
