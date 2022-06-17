@@ -127,14 +127,13 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     }
 
     const handleSubmit = async () => {
-        validateProjectValues();
-        if(isFormValid){
+        //Falta hacer la validacion, si la hago aca no lleg a cargarse a tiempo
+        //validateProjectValues();
+        /*if(isFormValid){
             console.log("valid");
-            /*if (response.status === 200) {
-                onSubmit();
-            }*/
             submit();
-        }
+        }*/
+        submit();
     };
 
     const handleProjectStateSelection = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -73,7 +73,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     }
 
     useEffect(() => {
-        getClientsFromExternalAPI();
+        //getClientsFromExternalAPI();
     }, []);
 
     const generateProjectUsingAPI = async () => {
@@ -152,20 +152,18 @@ const AddProjectModal = (props: AddProjectModalProps) => {
     }
 
     const handleSubmit = async () => {
-        validateProjectValues();
-        if(isADevelopProjectAndHasNOTAProductAssign){
+        //Falta hacer la validacion
+       if(isADevelopProjectAndHasNOTAProductAssign){
             setProductModal(true);
-        }else if(isFormValid){
+        }else{
             const partsS = newProject.startDate.split('-');
             newProject.startDate = partsS[2] + "/" + partsS[1] + "/" + partsS[0];
             const partsE = newProject.endDate.split('-');
             newProject.endDate = partsE[2] + "/" + partsE[1] + "/" + partsE[0];
-            const response = await generateProjectUsingAPI()
-            /*if (response.status === 200) {
-                onSubmit();
-            }*/
+            generateProjectUsingAPI();
             onSubmit();
         }
+    
     };
 
     const handleTypeSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
