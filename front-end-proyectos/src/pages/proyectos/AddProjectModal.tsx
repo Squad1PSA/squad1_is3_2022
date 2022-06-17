@@ -14,7 +14,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const AddProjectModal = (props: AddProjectModalProps) => {
 
     const partsCurrentDate = (new Date().toLocaleDateString('es-AR')).split("/");
-    var currentDate;
+    var currentDate: string;
     if(partsCurrentDate[1].length==1){
         currentDate = partsCurrentDate[0] + "/0" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
     }else{
@@ -120,7 +120,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
 
     const validateProjectStartDate = () =>{
         //if(regexddmmyyyy.test(newProject.startDate)){
-        if(newProject.startDate!="dd/mm/yyyy"){
+        if(newProject.startDate!="dd/mm/yyyy" && newProject.startDate >= currentDate){
             setStartDateValidation(true);
         }
         else
@@ -129,7 +129,7 @@ const AddProjectModal = (props: AddProjectModalProps) => {
 
     const validateProjectEndDate = () =>{
         //if(regexddmmyyyy.test(newProject.endDate)){
-        if(newProject.startDate!="dd/mm/yyyy"){
+        if(newProject.endDate!="dd/mm/yyyy" && newProject.endDate >= currentDate && newProject.endDate > newProject.startDate){
             setEndDateValidation(true)
         }
         else
@@ -145,12 +145,10 @@ const AddProjectModal = (props: AddProjectModalProps) => {
         validateProjectName();
         validateProjectType();
 
-        if (isNameValid && isTypeValid && isClientValid){
+        if (isNameValid && isTypeValid && isClientValid && isEndDateValid && isStartDateValid){
             setFormValidation(true);
             console.log("entro");
         }
-        /*if (isADevelopProjectAndHasNOTAProductAssign)
-            setFormValidation(false);*/
     }
 
     const handleSubmit = async () => {

@@ -48,20 +48,18 @@ const  ProjectTableRow = (props:  ProjectTableRowProps) => {
     const [riskColor, setRiskColor] = useState('#9297A0');
 
     useEffect(() => {
-        //tendria que aparecer en realidad un circulito con color representano el riesgo
-        //pero primero veamos si esto funciona
         if(row.risk?.impact == 1){
-            setRiskImpact('Bajo');
-            setRiskColor('#8CD867');
+            setRiskImpact(state => ('Bajo'));
+            setRiskColor(state => ('#8CD867'));
         }else if (row.risk?.impact == 2){
-            setRiskImpact('Medio');
-            setRiskColor('#FFB20F');
+            setRiskImpact(state => ('Medio'));
+            setRiskColor(state => ('#FFB20F'));
         }else if (row.risk?.impact == 3){
-            setRiskImpact('Alto');
-            setRiskColor('#E71D36');
+            setRiskImpact(state => ('Alto'));
+            setRiskColor(state => ('#E71D36'));
         }else if (row.risk?.impact == 4){
-            setRiskImpact('Critico');
-            setRiskColor('#481E3A');
+            setRiskImpact(state => ('Critico'));
+            setRiskColor(state => ('#481E3A'));
         }
     }, []);
 

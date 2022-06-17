@@ -93,36 +93,30 @@ const Proyecto = () => {
 
     const determineRisk = () => {
         if(project.risk?.impact == 1){
-            setRiskImpact('Bajo');
-            setRiskColor('#8CD867');
+            setRiskImpact(state => ('Bajo'));
+            setRiskColor(state => ('#8CD867'));
         }else if (project.risk?.impact == 2){
-            setRiskImpact('Medio');
-            setRiskColor('#FFB20F');
+            setRiskImpact(state => ('Medio'));
+            setRiskColor(state => ('#FFB20F'));
         }else if (project.risk?.impact == 3){
-            setRiskImpact('Alto');
-            setRiskColor('#E71D36');
+            setRiskImpact(state => ('Alto'));
+            setRiskColor(state => ('#E71D36'));
         }else if (project.risk?.impact == 4){
-            setRiskImpact('Critico');
-            setRiskColor('#481E3A');
+            setRiskImpact(state => ('Critico'));
+            setRiskColor(state => ('#481E3A'));
         }
     }
 
     const determineStateTagColor = () => {
         if(project.state === 'No Iniciado' || project.state === 'no iniciado' ){
-            setStateTagColor('#FC7A1E');
-            console.log('entro');
+            setStateTagColor(state => ('#FC7A1E'));
         }else if (project.state === 'Iniciado' || project.state === 'iniciado'){
-            setStateTagColor('#329F5B');
-            console.log('entro');
+            setStateTagColor(state => ('#329F5B'));
         }else if (project.state === 'Finalizado' || project.state === 'finalizado'){
-            setStateTagColor('#9297A0');
-            console.log('entro');
+            setStateTagColor(state => ('#4D7298'));
         }else if (project.state === 'Cancelado' || project.state === 'cancelado'){
-            setStateTagColor('#746D75');
-            console.log('entro');
+            setStateTagColor(state => ('#A54657'));
         }
-        console.log(stateTagColor);
-        console.log(project.state);
     }
 
     const changeexpandedRecursosSetUp = () =>{

@@ -15,7 +15,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const EditProjectModal = (props: EditProjectModalProps) => {
     const partsCurrentDate = (new Date().toLocaleDateString('es-AR')).split("/");
-    var currentDate;
+    var currentDate: string | number;
     if(partsCurrentDate[1].length==1){
         currentDate = partsCurrentDate[0] + "/0" + partsCurrentDate[1] + "/" + partsCurrentDate[2];
     }else{
@@ -32,8 +32,10 @@ const EditProjectModal = (props: EditProjectModalProps) => {
     const [showProductModal, setShowProductModal] = useState(false);
     const [isFormValid, setFormValidation] = useState(false);
     const [isNameValid, setNameValidation] = useState(true);
+    const [isStartDateValid, setStartDateValidation] = useState(true);
     const [isClientValid, setClientValidation] = useState(true);
     const [isProjectStateValid, setProjectStateValidation] = useState(true);
+    const [isEndDateValid, setEndDateValidation] = useState(true);
     const [isLoading, setLoading] = useState<boolean>(false)
     const [loadedClients, setLoadedClients] = useState<Client[]>([])
     const date = new Date();
@@ -88,21 +90,36 @@ const EditProjectModal = (props: EditProjectModalProps) => {
 
     }
 
+    const validateProjectStartDate = () =>{
+        if(newProject.startDate >= currentDate){
+            setStartDateValidation(true);
+        }
+        else
+            setStartDateValidation(false)
+    }
+
     const validateProjectState = () =>{
         if (newProject.state != "")
             setProjectStateValidation(true);
         else 
             setProjectStateValidation(false);
     }
-  
-    //const isADevelopProjectAndHasNOTAProductAssign = props.row.type == "desarrollo" && newProject.productId == 0;
     
+    const validateProjectEndDate = () =>{
+        //if(regexddmmyyyy.test(newProject.endDate)){
+        if(newProject.endDate!="dd/mm/yyyy" && newProject.endDate >= currentDate && newProject.endDate > newProject.startDate){
+            setEndDateValidation(true)
+        }
+        else
+            setEndDateValidation(false)
+    }
+
     const validateProjectValues = () =>{
-        //validateProjectName();
         validateProjectName();
         validateProjectState();
+        validateProjectStartDate();
 
-        if (isNameValid && isProjectStateValid){
+        if (isNameValid && isProjectStateValid && isStartDateValid && isEndDateValid){
             setFormValidation(true);
             console.log("entro");
         }
@@ -140,7 +157,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                 <div className='ml-10 flex flex-col items-center'>
                     <div className='flex mb-6 flex-row'>
                         <TextField required id="outlined-basic" defaultValue= {props.row.name} name="name" className='mr-8 w-80' style={{backgroundColor: isNameValid ? 'transparent' : '#F3909C'}} label="Nombre del Proyecto" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeText} />
-                        <TextField required type="date" name="startDate" defaultValue = {startDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
+                        <TextField required type="date" name="startDate" defaultValue = {startDate} className='mr-8 w-80' style={{backgroundColor: isStartDateValid ? 'transparent' : '#F3909C'}}  label="Fecha de inicio" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
                         />
                     </div>
                     <div className='flex mb-6 flex-row'>
@@ -151,7 +168,7 @@ const EditProjectModal = (props: EditProjectModalProps) => {
                                 </MenuItem>
                             ))}
                         </TextField>
-                        <TextField required type="date" name="endDate" defaultValue= {endDate} className='mr-8 w-80' style={{backgroundColor: isClientValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
+                        <TextField required type="date" name="endDate" defaultValue= {endDate} className='mr-8 w-80' style={{backgroundColor: isEndDateValid ? 'transparent' : '#F3909C'}} label="Fecha de finalizacion" InputLabelProps={{ shrink: true}} variant="outlined" onChange={handleChangeDate} 
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
